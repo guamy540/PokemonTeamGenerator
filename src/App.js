@@ -86,13 +86,13 @@ function App() {
       </div>
       
       <div className='flex flex-col justify-center align-center p-4 bg-red-500 mt-12 rounded-xl'>
-        <form id='nameForm' className='flex flex-col justify-center align-center bg-red-500'>
+        <div id='nameForm' className='flex flex-col justify-center align-center bg-red-500' onSubmit="return false;">
           <label className='bg-red-500 text-white'>Enter your name:</label>
           <input id='nameInput' type='text' 
           className='bg-white input[type=text] rounded-md border-gray-300 shadow-sm pl-3 py-2
           focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
           </input>
-        </form>
+        </div>
       </div>
       
       <button className='makeTeam bg-red-500 drop-shadow-xl hoverBiggen'
