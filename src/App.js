@@ -2,11 +2,27 @@ import logo from './logo.svg';
 import ls from 'local-storage'
 import './App.css';
 
-const pokemonNames = ["#pokemon1Name", "#pokemon2Name", "#pokemon3Name", "#pokemon4Name", "#pokemon5Name", "#pokemon6Name"]
+const headerArray = ["#pokemon1Name", "#pokemon2Name", "#pokemon3Name", "#pokemon4Name", "#pokemon5Name", "#pokemon6Name"]
 const pokemonImages = ["#pokemon1Url", "#pokemon2Url", "#pokemon3Url", "#pokemon4Url", "#pokemon5Url", "#pokemon6Url"]
 let pokemonTeam = []
-let pokemonUrls = []
 let allPokemon = []
+
+// if (localStorage.getItem('allPokemon') === null || localStorage.getItem('allPokemon') === '{}'){
+//   fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+//   .then(res => res.json())
+//   .then(result => {
+//     result.results.forEach(x => {
+//       allPokemon.push(x.name)
+//     })
+//     localStorage.setItem('allPokemon', allPokemon)    
+//   })
+//   .catch(error => console.error('error', error))
+// }else{
+//   allPokemon = localStorage.getItem('allPokemon')
+//   console.log(allPokemon)
+// }
+
+
 
 fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
   .then(res => res.json())
@@ -15,12 +31,42 @@ fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
       allPokemon.push(x.name)
     })
     allPokemon = allPokemon.sort()
-    const tPokemon = allPokemon.filter(p => p[0] == 't')
-    console.log(tPokemon)
     localStorage.setItem('allPokemon', allPokemon)    
   })
   .catch(error => console.error('error', error))
 
+
+function getUserInput(){
+  let i = document.querySelector('#nameInput').value
+  return i;
+}
+
+function convertUserInput(input){
+  input = input.split(' ').join('')
+  input = input.toLowerCase();
+  input = input.slice(0, 6)
+  input = input.split('')
+  return input
+}
+
+function makeTeamFromName(name, callback){
+  pokemonTeam = []
+  
+  let input = getUserInput()
+  input = convertUserInput(input)
+
+  input.forEach(letter => {
+    const filteredPokemon = allPokemon.filter(p => p[0] == letter)
+    let x = Math.floor(Math.random() * filteredPokemon.length)
+    pokemonTeam.push(filteredPokemon[x])
+  })
+  for(let i = 0; i<6; i++){
+    let pokemonName = capitalizeFirstLetter(pokemonTeam[i])
+    document.querySelector(`${headerArray[i]}`).innerText = pokemonName
+  }
+  makeImages()
+  getUserInput()
+}
 
 function MakeTeam(callback) {
   pokemonTeam = []
@@ -28,7 +74,7 @@ function MakeTeam(callback) {
   .then(res => res.json())
   .then(result => {
     console.log(result)
-    pokemonNames.forEach(name => {
+    headerArray.forEach(name => {
       let x = Math.floor(Math.random() * 1154)
       pokemonTeam.push(result.results[x].name)
       let capitalPokemon = capitalizeFirstLetter(result.results[x].name)
@@ -44,9 +90,94 @@ function capitalizeFirstLetter(string) {
 }
 
 function click(){
-  MakeTeam(makeImages)
+  if (validateInput() == true) makeTeamFromName()
 }
 
+function validateInput() {
+  if (document.querySelector('#nameInput').value == "") {
+      alert("Enter a name");
+      document.querySelector('#nameInput').focus();
+      return false;
+  }
+  if (!/^[a-zA-Z\s]*$/g.test(document.querySelector('#nameInput').value)) {
+      alert("Invalid characters. Your name input should only have spaces and letters.");
+      document.querySelector('#nameInput').focus();
+      return false;
+  }
+  if ((document.querySelector('#nameInput').value.length < 6)) {
+    alert("Name is too short. Need a minimum of six letters");
+    document.querySelector('#nameInput').focus();
+    return false;
+}
+  return true;
+}
+
+
+function App() {
+  return (
+    <div id='pageContainer' className="flex flex-col items-center mt-6">
+      <h1 className='text-5xl font-bold underline'>Make a pokemon team at random</h1>
+      
+      <div className='flex flex-col justify-center align-center p-4 bg-white mt-12'>
+        <form id='nameForm' className='flex flex-col justify-center align-center bg-white'>
+          <label className='bg-white'>Name</label>
+          <input id='nameInput' type='text' 
+          className='bg-red-500 text-white input[type=text] rounded-md border-gray-300 shadow-sm pl-3 py-2
+          focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
+
+          </input>
+        </form>
+      </div>
+      
+      <button className='makeTeam bg-red-500'
+        onClick={click}
+      >
+        Make Team
+      </button>
+      
+      <div id='pokemonWrapper' className='grid grid-cols-3 mt-6'>
+        <div id="pokemon1" className='pokemonCard flex flex-col items-center'>
+          <h2 id="pokemon1Name">Pokemon Name</h2>
+          <img id="pokemon1Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        </div>
+        
+        <div id="pokemon2" className='pokemonCard flex flex-col items-center'>
+          <h2 id="pokemon2Name">Pokemon Name</h2>
+          <img id="pokemon2Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        </div>
+        
+        <div id="pokemon3" className='pokemonCard flex flex-col items-center'>
+          <h2 id="pokemon3Name">Pokemon Name</h2>
+          <img id="pokemon3Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        </div>
+        
+        <div id="pokemon4" className='pokemonCard flex flex-col items-center'>
+          <h2 id="pokemon4Name">Pokemon Name</h2>
+          <img id="pokemon4Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        </div>
+        
+        <div id="pokemon5" className='pokemonCard flex flex-col items-center'>
+          <h2 id="pokemon5Name">Pokemon Name</h2>
+          <img id="pokemon5Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        </div>
+        
+        <div id="pokemon6" className='pokemonCard flex flex-col items-center'>
+          <h2 id="pokemon6Name">Pokemon Name</h2>
+          <img id="pokemon6Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function makeImages(){
+  getImage1()
+  getImage2()
+  getImage3()
+  getImage4()
+  getImage5()
+  getImage6()
+}
 
 function getImage1(){
   fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonTeam[0].toLowerCase()}`)
@@ -94,62 +225,6 @@ function getImage6(){
   .then(result => {
     document.querySelector('#pokemon6Url').src = result.sprites.front_default
   })
-}
-
-function makeImages(){
-  getImage1()
-  getImage2()
-  getImage3()
-  getImage4()
-  getImage5()
-  getImage6()
-}
-
-
-
-function App() {
-  return (
-    <div id='pageContainer' className="flex flex-col items-center mt-6">
-      <h1 className='text-5xl font-bold underline'>Make a pokemon team at random</h1>
-      <button className='makeTeam'
-        onClick={click}
-      >
-        Make Team
-      </button>
-      
-      <div id='pokemonWrapper' className='grid grid-cols-3 mt-6'>
-        <div id="pokemon1" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon1Name">Pokemon Name</h2>
-          <img id="pokemon1Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
-        </div>
-        
-        <div id="pokemon2" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon2Name">Pokemon Name</h2>
-          <img id="pokemon2Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
-        </div>
-        
-        <div id="pokemon3" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon3Name">Pokemon Name</h2>
-          <img id="pokemon3Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
-        </div>
-        
-        <div id="pokemon4" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon4Name">Pokemon Name</h2>
-          <img id="pokemon4Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
-        </div>
-        
-        <div id="pokemon5" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon5Name">Pokemon Name</h2>
-          <img id="pokemon5Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
-        </div>
-        
-        <div id="pokemon6" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon6Name">Pokemon Name</h2>
-          <img id="pokemon6Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default App;
