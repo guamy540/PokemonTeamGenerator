@@ -1,1 +1,2 @@
-export {default as background} from './images/backgroundPokemon.jpg'
+export {default as title} from './images/whosYourPokemon.png'
+export {default as question} from './images/pokemonQuestion.png'

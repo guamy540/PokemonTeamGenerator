@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-  background: url(./assets/images/backgroundPokemon.jpg);
+  background: url(./assets/images/pokeballBlurBG.jpg);
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
