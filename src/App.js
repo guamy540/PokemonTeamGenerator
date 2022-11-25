@@ -7,23 +7,6 @@ const pokemonImages = ["#pokemon1Url", "#pokemon2Url", "#pokemon3Url", "#pokemon
 let pokemonTeam = []
 let allPokemon = []
 
-// if (localStorage.getItem('allPokemon') === null || localStorage.getItem('allPokemon') === '{}'){
-//   fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
-//   .then(res => res.json())
-//   .then(result => {
-//     result.results.forEach(x => {
-//       allPokemon.push(x.name)
-//     })
-//     localStorage.setItem('allPokemon', allPokemon)    
-//   })
-//   .catch(error => console.error('error', error))
-// }else{
-//   allPokemon = localStorage.getItem('allPokemon')
-//   console.log(allPokemon)
-// }
-
-
-
 fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
   .then(res => res.json())
   .then(result => {
@@ -49,7 +32,7 @@ function convertUserInput(input){
   return input
 }
 
-function makeTeamFromName(name, callback){
+function makeTeamFromName(){
   pokemonTeam = []
   
   let input = getUserInput()
@@ -65,25 +48,13 @@ function makeTeamFromName(name, callback){
     document.querySelector(`${headerArray[i]}`).innerText = pokemonName
   }
   makeImages()
-  getUserInput()
+ // getEntry1()
 }
 
-function MakeTeam(callback) {
-  pokemonTeam = []
-  fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
-  .then(res => res.json())
-  .then(result => {
-    console.log(result)
-    headerArray.forEach(name => {
-      let x = Math.floor(Math.random() * 1154)
-      pokemonTeam.push(result.results[x].name)
-      let capitalPokemon = capitalizeFirstLetter(result.results[x].name)
-      document.querySelector(`${name}`).innerText = capitalPokemon
-    })
-    callback()
-  })
-  .catch(error => console.error('error', error))
+function getPokedexEntries(){
+
 }
+
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -118,54 +89,72 @@ function App() {
     <div id='pageContainer' className="flex flex-col items-center mt-6">
       <h1 className='text-5xl font-bold underline'>Make a pokemon team at random</h1>
       
-      <div className='flex flex-col justify-center align-center p-4 bg-white mt-12'>
-        <form id='nameForm' className='flex flex-col justify-center align-center bg-white'>
-          <label className='bg-white'>Name</label>
+      <div className='flex flex-col justify-center align-center p-4 bg-red-500 mt-12 rounded-xl'>
+        <form id='nameForm' className='flex flex-col justify-center align-center bg-red-500'>
+          <label className='bg-red-500 text-white'>Enter a name:</label>
           <input id='nameInput' type='text' 
-          className='bg-red-500 text-white input[type=text] rounded-md border-gray-300 shadow-sm pl-3 py-2
+          className='bg-white input[type=text] rounded-md border-gray-300 shadow-sm pl-3 py-2
           focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
-
           </input>
         </form>
       </div>
       
-      <button className='makeTeam bg-red-500'
+      <button className='makeTeam bg-red-500 drop-shadow-xl hoverBiggen'
         onClick={click}
       >
         Make Team
       </button>
       
-      <div id='pokemonWrapper' className='grid grid-cols-3 mt-6'>
-        <div id="pokemon1" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon1Name">Pokemon Name</h2>
-          <img id="pokemon1Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+      <div id='pokemonWrapper' className='grid grid-cols-3 m-6 gap-6'>
+        <div id="pokemon1" className='pokemonCard flex flex-col items-center bg-white rounded-2xl drop-shadow-md hoverBiggen'>
+          <div className='bg-red-500 w-full flex justify-center text-white rounded-t-2xl'>
+            <h2 id="pokemon1Name" className='px-2'>Pokemon Name</h2>
+          </div>
+          <img id="pokemon1Url" className ='p-2 drop-shadow-xl' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+          <p id="pokemon1Desc" className=''></p>  
         </div>
         
-        <div id="pokemon2" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon2Name">Pokemon Name</h2>
-          <img id="pokemon2Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        <div id="pokemon2" className='pokemonCard flex flex-col items-center bg-white rounded-2xl drop-shadow-md hoverBiggen'>
+          <div className='bg-red-500 w-full flex justify-center text-white rounded-t-2xl'>
+            <h2 id="pokemon2Name" className='px-2'>Pokemon Name</h2>
+          </div>
+          <img id="pokemon2Url" className ='p-2' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+          <p id="pokemon2Desc" className=''></p>  
         </div>
         
-        <div id="pokemon3" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon3Name">Pokemon Name</h2>
-          <img id="pokemon3Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        <div id="pokemon3" className='pokemonCard flex flex-col items-center bg-white rounded-2xl drop-shadow-md hoverBiggen'>
+          <div className='bg-red-500 w-full flex justify-center text-white rounded-t-2xl'>
+            <h2 id="pokemon3Name" className='px-2'>Pokemon Name</h2>
+          </div>
+          <img id="pokemon3Url" className ='p-2 drop-shadow-xl' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+          <p id="pokemon3Desc" className=''></p>  
         </div>
         
-        <div id="pokemon4" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon4Name">Pokemon Name</h2>
-          <img id="pokemon4Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        <div id="pokemon4" className='pokemonCard flex flex-col items-center bg-white rounded-2xl drop-shadow-md hoverBiggen'>
+          <div className='bg-red-500 w-full flex justify-center text-white rounded-t-2xl'>
+            <h2 id="pokemon4Name" className='px-2'>Pokemon Name</h2>
+          </div>
+          <img id="pokemon4Url" className ='p-2 drop-shadow-xl' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+          <p id="pokemon4Desc" className=''></p>  
         </div>
         
-        <div id="pokemon5" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon5Name">Pokemon Name</h2>
-          <img id="pokemon5Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        <div id="pokemon5" className='pokemonCard flex flex-col items-center bg-white rounded-2xl drop-shadow-md hoverBiggen'>
+          <div className='bg-red-500 w-full flex justify-center text-white rounded-t-2xl'>
+            <h2 id="pokemon5Name" className='px-2'>Pokemon Name</h2>
+          </div>
+          <img id="pokemon5Url" className ='p-2 drop-shadow-xl' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+          <p id="pokemon5Desc" className=''></p>  
         </div>
         
-        <div id="pokemon6" className='pokemonCard flex flex-col items-center'>
-          <h2 id="pokemon6Name">Pokemon Name</h2>
-          <img id="pokemon6Url" className ='' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+        <div id="pokemon6" className='pokemonCard flex flex-col items-center bg-white rounded-2xl drop-shadow-md hoverBiggen'>
+          <div className='bg-red-500 w-full flex justify-center text-white rounded-t-2xl'>
+            <h2 id="pokemon6Name" className='px-2'>Pokemon Name</h2>
+          </div>
+            <img id="pokemon6Url" className ='p-2 drop-shadow-xl' src="https://freepngimg.com/thumb/categories/493.png" alt='pokemon'></img>
+            <p id="pokemon6Desc" className=''></p>        
+          </div>
         </div>
-      </div>
+
     </div>
   );
 }
@@ -227,4 +216,42 @@ function getImage6(){
   })
 }
 
+
+//edge case ho-oh
+function getEntry1(){
+  let pokemon = pokemonTeam[0]
+  pokemon = removeDash(pokemon)
+  fetch(`https://pokeapi.glitch.me/v1/pokemon/squirtle`)
+  .then(res => res.json())
+  .then(result => {
+    console.log(result)
+  })
+}
+
+function removeDash(n){
+  if (n.toLowerCase() == 'ho-oh') return n
+  let dash = n.indexOf('-')
+  if (dash != -1){
+    n = n.slice(0,dash)    
+  }
+  return n
+}
+
 export default App;
+
+
+
+// if (localStorage.getItem('allPokemon') === null || localStorage.getItem('allPokemon') === '{}'){
+//   fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+//   .then(res => res.json())
+//   .then(result => {
+//     result.results.forEach(x => {
+//       allPokemon.push(x.name)
+//     })
+//     localStorage.setItem('allPokemon', allPokemon)    
+//   })
+//   .catch(error => console.error('error', error))
+// }else{
+//   allPokemon = localStorage.getItem('allPokemon')
+//   console.log(allPokemon)
+// }

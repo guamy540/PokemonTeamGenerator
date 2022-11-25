@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-  background: pink;
+body{
+  background: url(./assets/images/backgroundPokemon.jpg);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .hidden{
@@ -19,6 +22,6 @@
   border: 2px 2px 2px black;
 }
 
-.makeTeam:hover{
+.hoverBiggen:hover{
   transform: scale(1.3);
 }

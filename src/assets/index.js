@@ -1,0 +1,1 @@
+export {default as background} from './images/backgroundPokemon.jpg'
